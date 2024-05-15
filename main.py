@@ -62,9 +62,10 @@ def filter_clicks(
 def concat_clicks(
     in_directory: Path = Path("output/"),
     out_directory: Path = Path("output/"),
+    out_file: str = "clicks.parquet",
     remove_parsed_parts: bool = True,
 ):
-    out_path = out_directory / "clicks.parquet"
+    out_path = out_directory / out_file
     dfs = []
 
     for part_path in tqdm(in_directory.glob("part-*.parquet"), "Concatenate part"):
