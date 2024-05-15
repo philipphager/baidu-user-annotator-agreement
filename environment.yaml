@@ -1,0 +1,10 @@
+name: baidu-user-annotator-agreement
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - pyarrow
+  - tqdm
+  - typer
