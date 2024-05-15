@@ -4,9 +4,9 @@
 #SBATCH --partition=cpu
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --mem 8GB
+#SBATCH --mem=4GB
 #SBATCH --time=02:00
-#SBATCH --array=0-1999
+#SBATCH --array=0-2000%50
 
 source ${HOME}/.bashrc
 mamba activate baidu-user-annotator-agreement
