@@ -7,7 +7,7 @@
 *.txt
 *.out
 
-output
+data
 results
 
 .DS_Store
