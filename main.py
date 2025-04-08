@@ -39,6 +39,8 @@ def filter_clicks(
     in_directory: Annotated[Path, Option(exists=True, dir_okay=True)] = "data/",
     out_directory: Annotated[Path, Option(exists=True, dir_okay=True)] = "output/",
 ):
+    part = part + 1000
+
     in_path = in_directory / f"part-{part:05d}.gz"
     out_path = out_directory / f"part-{part:05d}.parquet"
     annotations_path = out_directory / annotations_file
