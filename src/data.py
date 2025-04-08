@@ -44,7 +44,7 @@ def parse_annotations(path: Path):
     return pd.DataFrame(rows)
 
 
-def parse_clicks(path: Path, filter_queries: Set[bytes] = None):
+def parse_clicks(path: Path, filter_queries: Set[str] = None):
     rows = []
     query_id = None
     query = None
@@ -59,34 +59,74 @@ def parse_clicks(path: Path, filter_queries: Set[bytes] = None):
 
             if is_query:
                 query_no += 1
-                query_id = columns[QueryColumns.QID]
+                query_id = columns[QueryColumns.QID].decode("utf-8")
                 query = parse_tokens(columns[QueryColumns.QUERY])
+                query_reformulation = parse_tokens(columns[QueryColumns.QUERY_REFORMULATION])
             elif len(filter_queries) == 0 or query in filter_queries:
+                # Content features:
                 title = parse_tokens(columns[ClickColumns.TITLE])
                 abstract = parse_tokens(columns[ClickColumns.ABSTRACT])
-                url = columns[ClickColumns.URL_MD5]
+                url = columns[ClickColumns.URL_MD5].decode("utf-8")
+
+                # Display features:
                 position = int(columns[ClickColumns.POS])
                 media_type = columns[ClickColumns.MULTIMEDIA_TYPE]
                 media_type = int(media_type) if media_type != b"-" else 0
-                displayed_time = float(columns[ClickColumns.DISPLAYED_TIME])
                 serp_height = int(columns[ClickColumns.SERP_HEIGHT])
-                slipoff = int(columns[ClickColumns.SLIPOFF_COUNT_AFTER_CLICK])
+                serp_to_top = int(columns[ClickColumns.SERP_TO_TOP])
+
+                # User feedback:
                 click = int(columns[ClickColumns.CLICK])
+                first_click = int(columns[ClickColumns.FIRST_CLICK])
+                last_click = int(columns[ClickColumns.LAST_CLICK])
+                final_click = int(columns[ClickColumns.FINAL_CLICK])
+
+                skip = int(columns[ClickColumns.SKIP])
+                slipoff = int(columns[ClickColumns.SLIPOFF_COUNT])
+                slipoff_after_click = int(columns[ClickColumns.SLIPOFF_COUNT_AFTER_CLICK])
+
+                displayed_count = int(columns[ClickColumns.DISPLAYED_COUNT])
+                displayed_count_top = int(columns[ClickColumns.DISPLAYED_COUNT_TOP])
+                displayed_count_middle = int(columns[ClickColumns.DISPLAYED_COUNT_MIDDLE])
+                displayed_count_bottom = int(columns[ClickColumns.DISPLAYED_COUNT_BOTTOM])
+                reverse_displayed_count = int(columns[ClickColumns.REVERSE_DISPLAY_COUNT])
+
+                displayed_time = float(columns[ClickColumns.DISPLAYED_TIME])
+                displayed_time_top = float(columns[ClickColumns.DISPLAYED_TIME_TOP])
+                displayed_time_middle = float(columns[ClickColumns.DISPLAYED_TIME_MIDDLE])
+                displayed_time_bottom = float(columns[ClickColumns.DISPLAYED_TIME_BOTTOM])
+                dwelling_time = float(columns[ClickColumns.DWELLING_TIME])
 
                 rows.append(
                     {
                         "query_no": query_no,
-                        "query_id": query_id.decode("utf-8"),
-                        "url_md5": url.decode("utf-8"),
+                        "query_id": query_id,
+                        "url_md5": url,
                         "query": query,
+                        "query_reformulation": query_reformulation,
                         "title": title,
                         "abstract": abstract,
                         "position": position,
                         "media_type": media_type,
-                        "displayed_time": displayed_time,
                         "serp_height": serp_height,
-                        "slipoff_count_after_click": slipoff,
+                        "serp_to_top": serp_to_top,
                         "click": click,
+                        "first_click": first_click,
+                        "last_click": last_click,
+                        "final_click": final_click,
+                        "skip": skip,
+                        "slipoff": slipoff,
+                        "slipoff_after_click": slipoff_after_click,
+                        "displayed_count": displayed_count,
+                        "displayed_count_top": displayed_count_top,
+                        "displayed_count_middle": displayed_count_middle,
+                        "displayed_count_bottom": displayed_count_bottom,
+                        "reverse_displayed_count": reverse_displayed_count,
+                        "displayed_time": displayed_time,
+                        "displayed_time_top": displayed_time_top,
+                        "displayed_time_middle": displayed_time_middle,
+                        "displayed_time_bottom": displayed_time_bottom,
+                        "dwelling_time": dwelling_time,
                     }
                 )
 
