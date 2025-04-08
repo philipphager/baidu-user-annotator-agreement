@@ -72,8 +72,8 @@ def parse_clicks(path: Path, filter_queries: Set[str] = None):
                 position = int(columns[ClickColumns.POS])
                 media_type = columns[ClickColumns.MULTIMEDIA_TYPE]
                 media_type = int(media_type) if media_type != b"-" else 0
-                serp_height = int(columns[ClickColumns.SERP_HEIGHT])
-                serp_to_top = int(columns[ClickColumns.SERP_TO_TOP])
+                serp_height = float(columns[ClickColumns.SERP_HEIGHT])
+                serp_to_top = float(columns[ClickColumns.SERP_TO_TOP])
 
                 # User feedback:
                 click = int(columns[ClickColumns.CLICK])
