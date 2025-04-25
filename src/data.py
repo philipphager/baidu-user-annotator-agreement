@@ -44,7 +44,7 @@ def parse_annotations(path: Path):
     return pd.DataFrame(rows)
 
 
-def parse_clicks(path: Path, filter_queries: Set[str] = None):
+def parse_clicks(path: Path, part: int, filter_queries: Set[str] = None):
     rows = []
     query_id = None
     query = None
@@ -97,10 +97,12 @@ def parse_clicks(path: Path, filter_queries: Set[str] = None):
                 displayed_time_bottom = float(columns[ClickColumns.DISPLAYED_TIME_BOTTOM])
                 dwelling_time = float(columns[ClickColumns.DWELLING_TIME])
 
+                print(f"part-{part:05d}-query_no-{query_no}")
+
                 rows.append(
                     {
-                        "query_no": query_no,
-                        "query_id": query_id,
+                        "query_id": f"part-{part:05d}-query-{query_no}",
+                        "baidu_query_id": query_id,
                         "url_md5": url,
                         "query": query,
                         "query_reformulation": query_reformulation,

@@ -52,7 +52,7 @@ def filter_clicks(
 
     print(f"Filter clicks: {in_path}")
 
-    click_df = data.parse_clicks(in_path, filter_queries=filter_queries)
+    click_df = data.parse_clicks(in_path, part=part, filter_queries=filter_queries)
     click_df.to_parquet(out_path)
 
     print(f"Saved: {out_path}")
